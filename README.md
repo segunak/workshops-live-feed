@@ -57,7 +57,7 @@ Retrieves posts for verification.
 
 **Mode 1: Get specific post by ID**
 
-```
+```txt
 GET /api/posts?id=recXXX&WorkshopKey=...
 ```
 
@@ -65,7 +65,7 @@ GET /api/posts?id=recXXX&WorkshopKey=...
 
 **Mode 2: List recent posts by workshop**
 
-```
+```txt
 GET /api/posts?workshop=UNC%20Charlotte%202026&WorkshopKey=...
 ```
 
