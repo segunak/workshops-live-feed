@@ -13,19 +13,17 @@ A lightweight live feed for workshops. Participants post via code and see result
 
 ## Architecture
 
-```
-Student Code                    Vercel Function              Airtable
-     |                               |                          |
-     |  POST /api/post               |                          |
-     |  {Name, Message, Workshop,    |                          |
-     |   WorkshopKey}                |                          |
-     |------------------------------>|                          |
-     |                               |  Validate WorkshopKey    |
-     |                               |  Write via Airtable API  |
-     |                               |------------------------->|
-     |                               |<-------------------------|
-     |  {success: true}              |                          |
-     |<------------------------------|                          |
+```mermaid
+sequenceDiagram
+    participant Student as Student Code
+    participant Vercel as Vercel Function
+    participant Airtable as Airtable
+
+    Student->>Vercel: POST /api/post<br/>{Name, Message, Workshop, WorkshopKey}
+    Vercel->>Vercel: Validate WorkshopKey
+    Vercel->>Airtable: Write via Airtable API
+    Airtable-->>Vercel: Record created
+    Vercel-->>Student: {success: true}
 ```
 
 - **Vercel** hosts the static site and serverless function
