@@ -1,15 +1,15 @@
 # Workshops Live Feed
 
-A lightweight live feed for workshops. Participants post via code and see results on a shared screen in real-time.
+A lightweight live feed I use for my workshops. Participants post via code and see results on a shared screen in real-time.
 
 **Live URL:** https://live.segunakinyemi.com
 
 ## What This Does
 
-1. You give participants the endpoint URL and a secret `WorkshopKey`
+1. I give participants the endpoint URL and a `WorkshopKey`
 2. They write code (Python, JavaScript, or PowerShell) to POST a message
 3. Their post appears on the live feed within seconds
-4. You display the feed on a projector for everyone to see
+4. I display the feed on a projector for everyone to see
 
 ## Architecture
 
