@@ -1,0 +1,69 @@
+name: Test API
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  LIVE_FEED_URL: https://live.segunakinyemi.com
+  WORKSHOP_KEY: ${{ secrets.WORKSHOP_KEY }}
+  ADMIN_KEY: ${{ secrets.ADMIN_KEY }}
+
+jobs:
+  wait-for-deploy:
+    name: Wait for Vercel Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 seconds for Vercel to deploy
+        run: |
+          echo "Waiting 30 seconds for Vercel deployment to complete..."
+          sleep 30
+          echo "Done waiting. Starting tests."
+
+  test-python:
+    name: Test Python
+    needs: wait-for-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Python tests
+        run: python tools/test_post.py
+
+  test-javascript:
+    name: Test JavaScript
+    needs: wait-for-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run JavaScript tests
+        run: node tools/test_post.js
+
+  test-powershell:
+    name: Test PowerShell
+    needs: wait-for-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run PowerShell tests
+        shell: pwsh
+        run: ./tools/test_post.ps1
