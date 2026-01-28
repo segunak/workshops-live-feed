@@ -44,7 +44,8 @@ export default async function handler(req, res) {
   const fields = {
     Name: Name.trim(),
     Message: Message.trim(),
-    Workshop: Workshop.trim()
+    Workshop: Workshop.trim(),
+    WorkshopKey: WorkshopKey
   };
 
   // Tags is optional - convert comma-separated string to array for Airtable multi-select

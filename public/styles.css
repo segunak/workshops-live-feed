@@ -64,15 +64,24 @@ body {
     border-bottom: 3px solid var(--primary);
 }
 
+.header .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .header .logo h1 {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    color: var(--dark);
+    color: var(--primary);
+    margin: 0;
+    letter-spacing: -0.5px;
 }
 
 .header .logo span {
-    color: var(--secondary);
+    color: var(--dark);
+    font-weight: 600;
 }
 
 /* Main */
@@ -85,19 +94,32 @@ body {
 .title-section {
     text-align: center;
     margin-bottom: 2rem;
+    padding: 1rem 0;
 }
 
 .title-section h2 {
     font-family: var(--font-heading);
-    font-size: 2rem;
+    font-size: 2.25rem;
     color: var(--dark);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.title-section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--secondary);
+    margin: 0.75rem auto 0;
+    border-radius: 2px;
 }
 
 .title-section p {
     color: var(--gray);
     max-width: 600px;
     margin: 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.7;
 }
 
 /* Code Section */
