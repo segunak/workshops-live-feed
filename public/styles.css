@@ -2,16 +2,16 @@
  * Live Feed Styles
  */
 
-/* CSS Variables */
+/* CSS Variables - Brand Colors */
 :root {
-    --primary: #0092ca;
+    --primary: #0092ca;          /* Blue */
     --primary-dark: #007bb5;
-    --secondary: #f21368;
-    --dark: #1a1a2e;
-    --dark-lighter: #16213e;
-    --light: #f8f9fa;
-    --gray: #6c757d;
-    --gray-light: #e9ecef;
+    --secondary: #f21368;         /* Pinkish */
+    --dark: #181b1e;              /* Dark Blue */
+    --dark-lighter: #2a2f33;
+    --light: #f5fbff;             /* Light Blue */
+    --gray: #5a6872;
+    --gray-light: #e8f4fc;
     --success: #28a745;
     --danger: #dc3545;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -105,6 +105,7 @@ body {
     padding: 2rem;
     margin-bottom: 2rem;
     box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary);
 }
 
 .code-section h3 {
@@ -113,12 +114,13 @@ body {
 }
 
 .password-note {
-    background: #fff3cd;
-    border: 1px solid #ffc107;
+    background: var(--light);
+    border: 1px solid var(--primary);
+    border-left: 4px solid var(--secondary);
     border-radius: var(--radius);
     padding: 0.75rem 1rem;
     margin-bottom: 1.5rem;
-    color: #856404;
+    color: var(--dark);
 }
 
 .password-note i {
@@ -153,7 +155,7 @@ body {
 }
 
 .tab-btn.active {
-    background: var(--dark);
+    background: var(--primary);
     color: white;
 }
 
@@ -240,8 +242,8 @@ body {
 }
 
 .toggle-btn.active {
-    background: var(--success);
-    border-color: var(--success);
+    background: var(--secondary);
+    border-color: var(--secondary);
     color: white;
 }
 

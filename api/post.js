@@ -47,9 +47,16 @@ export default async function handler(req, res) {
     Workshop: Workshop.trim()
   };
 
-  // Tags is optional
+  // Tags is optional - convert comma-separated string to array for Airtable multi-select
   if (Tags && Tags.trim()) {
-    fields.Tags = Tags.trim();
+    // Split by comma, trim each tag, filter empty strings
+    const tagsArray = Tags.split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
+    
+    if (tagsArray.length > 0) {
+      fields.Tags = tagsArray;
+    }
   }
 
   // Write to Airtable
