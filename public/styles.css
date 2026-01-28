@@ -54,23 +54,25 @@ body {
 
 /* Header */
 .header {
-    background: var(--dark);
-    color: white;
+    background: white;
+    color: var(--dark);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: var(--shadow);
+    border-bottom: 3px solid var(--primary);
 }
 
 .header .logo h1 {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 700;
+    color: var(--dark);
 }
 
 .header .logo span {
-    color: var(--primary);
+    color: var(--secondary);
 }
 
 /* Main */
@@ -308,11 +310,20 @@ body {
 
 /* Footer */
 .footer {
-    background: var(--dark);
-    color: var(--gray);
+    background: var(--primary);
+    color: white;
     padding: 1rem 0;
     text-align: center;
     font-size: 0.85rem;
+}
+
+.footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer a:hover {
+    color: var(--light);
 }
 
 /* Responsive */
