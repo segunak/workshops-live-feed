@@ -26,6 +26,7 @@ node test_post.js
 ## What They Do
 
 Each script:
+
 1. POSTs a timestamped test message
 2. Includes Name, Message, Workshop, and Tags
 3. Reports success or failure with the API response

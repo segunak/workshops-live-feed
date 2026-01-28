@@ -57,12 +57,6 @@
                     <button class="tab-btn" data-tab="powershell">
                         <i class="fas fa-terminal"></i> PowerShell
                     </button>
-                    <button class="tab-btn" data-tab="bash">
-                        <i class="fas fa-terminal"></i> Bash
-                    </button>
-                    <button class="tab-btn" data-tab="curl">
-                        <i class="fas fa-code"></i> cURL
-                    </button>
                 </div>
 
                 <div class="code-panels">
@@ -148,34 +142,6 @@ response = requests.post(url, json=data)
 }</code></pre>
                     </div>
 
-                    <!-- Bash Panel -->
-                    <div class="code-panel" id="bash">
-                        <pre><code><span class="comment"># Bash - Using curl with JSON</span>
-
-<span class="variable">URL</span>=<span class="string">"https://live.segunakinyemi.com/api/post"</span>
-
-curl -X POST <span class="string">"<span class="variable">$URL</span>"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -d <span class="string">'{
-    "Name": "Your Name Here",
-    "Message": "Hello from Bash!",
-    "Workshop": "UNC Charlotte 2026",
-    "Tags": "bash, workshop",
-    "WorkshopKey": "ASK_YOUR_INSTRUCTOR"
-  }'</span>
-
-<span class="keyword">echo</span> <span class="string">""</span>
-<span class="keyword">echo</span> <span class="string">"Check the live feed to verify your post!"</span></code></pre>
-                    </div>
-
-                    <!-- cURL Panel -->
-                    <div class="code-panel" id="curl">
-                        <pre><code><span class="comment"># cURL one-liner</span>
-
-curl -X POST <span class="string">"https://live.segunakinyemi.com/api/post"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -d <span class="string">'{"Name":"Your Name","Message":"Hello!","Workshop":"UNC Charlotte 2026","WorkshopKey":"ASK_YOUR_INSTRUCTOR"}'</span></code></pre>
-                    </div>
                 </div>
                 
                 <p class="success-hint">

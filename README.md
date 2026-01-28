@@ -7,7 +7,7 @@ A lightweight live feed for workshops. Participants post via code and see result
 ## What This Does
 
 1. You give participants the endpoint URL and a secret `WorkshopKey`
-2. They write code (Python, JavaScript, PowerShell, Bash, or cURL) to POST a message
+2. They write code (Python, JavaScript, or PowerShell) to POST a message
 3. Their post appears on the live feed within seconds
 4. You display the feed on a projector for everyone to see
 
