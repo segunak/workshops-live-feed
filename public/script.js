@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let isLive = false;
     let refreshInterval = null;
-    const REFRESH_INTERVAL_MS = 5000; // 5 seconds
+    const REFRESH_INTERVAL_MS = 30000; // 30 seconds
 
     function refreshFeed() {
         if (!feedFrame) return;
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function startLiveMode() {
         isLive = true;
         liveToggle.classList.add('active');
-        statusText.textContent = 'Auto-refresh every 5s';
+        statusText.textContent = 'Auto-refresh every 30s';
         refreshInterval = setInterval(refreshFeed, REFRESH_INTERVAL_MS);
     }
 
