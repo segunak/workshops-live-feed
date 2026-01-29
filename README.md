@@ -2,7 +2,7 @@
 
 A lightweight live feed I use for my workshops. Participants post via code and see results on a shared screen in real-time.
 
-**Live URL:** https://live.segunakinyemi.com
+**Live URL:** <https://live.segunakinyemi.com>
 
 ## What This Does
 
@@ -77,6 +77,13 @@ GET /api/posts?workshop=UNC%20Charlotte%202026&WorkshopKey=...
 2. Run `npx vercel dev`
 3. Open http://localhost:3000
 
-## Test Scripts
+## Testing & CI/CD
 
-See `tools/` folder for test scripts in multiple languages.
+Integration tests run automatically on every push to `main` via GitHub Actions. Tests run in Python, JavaScript, and PowerShell in parallel, creating posts, verifying they exist, then cleaning up.
+
+See [tools/README.md](tools/README.md) for details on:
+
+- How the CI/CD pipeline works
+- Running tests manually
+- Required GitHub secrets (`WORKSHOP_KEY`, `ADMIN_KEY`)
+- The full test flow (POST → GET → DELETE)
