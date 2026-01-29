@@ -2,9 +2,10 @@
  * Vercel Serverless Function: GET /api/posts
  * 
  * Retrieves posts from Airtable for verification.
- * Supports two modes:
+ * Supports three modes:
  *   - ?id=recXXX - Get a specific post by Airtable record ID
  *   - ?workshop=X - Get recent posts filtered by workshop name
+ *   - ?tag=X - Get recent posts filtered by tag
  * 
  * Requires WorkshopKey query param for authorization.
  */
@@ -26,17 +27,17 @@ export default async function handler(req, res) {
   }
 
   // Validate WorkshopKey from query param
-  const { id, workshop, WorkshopKey } = req.query;
+  const { id, workshop, tag, WorkshopKey } = req.query;
 
   if (!WorkshopKey || WorkshopKey !== process.env.WORKSHOP_KEY) {
     return res.status(401).json({ success: false, error: 'Invalid or missing WorkshopKey' });
   }
 
-  // Must provide either id or workshop
-  if (!id && !workshop) {
+  // Must provide either id, workshop, or tag
+  if (!id && !workshop && !tag) {
     return res.status(400).json({ 
       success: false, 
-      error: 'Missing required parameter. Provide either "id" or "workshop" query parameter.' 
+      error: 'Missing required parameter. Provide "id", "workshop", or "tag" query parameter.' 
     });
   }
 
@@ -128,6 +129,48 @@ export default async function handler(req, res) {
         success: true,
         count: posts.length,
         workshop: workshop,
+        posts: posts
+      });
+    }
+
+    // Mode 3: Get posts by tag
+    if (tag) {
+      // Use FIND to search for the tag in the Tags array
+      // ARRAYJOIN converts the multi-select to a searchable string
+      const filterFormula = `FIND("${tag.replace(/"/g, '\\"')}", ARRAYJOIN({Tags}, ","))`;
+      const airtableUrl = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Posts?filterByFormula=${encodeURIComponent(filterFormula)}&maxRecords=50`;
+      
+      const response = await fetch(airtableUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Airtable error:', errorText);
+        return res.status(500).json({
+          success: false,
+          error: 'Failed to fetch from Airtable'
+        });
+      }
+
+      const data = await response.json();
+      
+      const posts = data.records.map(record => ({
+        id: record.id,
+        name: record.fields.Name,
+        message: record.fields.Message,
+        workshop: record.fields.Workshop,
+        tags: record.fields.Tags || [],
+        createdAt: record.createdTime
+      }));
+
+      return res.status(200).json({
+        success: true,
+        count: posts.length,
+        tag: tag,
         posts: posts
       });
     }

@@ -137,6 +137,29 @@ def test_get_invalid_id():
         return False
 
 
+def test_get_by_tag():
+    """Test: GET with tag should return posts containing that tag"""
+    try:
+        url = f"{POSTS_URL}?tag=python&WorkshopKey={WORKSHOP_KEY}"
+        response = requests.get(url, timeout=30)
+        result = response.json()
+        
+        if response.status_code == 200 and result.get("success"):
+            # Just verify we get a valid response structure
+            if "posts" in result and "count" in result and "tag" in result:
+                log_test("GET by tag → 200 + posts", True)
+                return True
+            else:
+                log_test("GET by tag → 200 + posts", False, f"Missing fields: {result}")
+                return False
+        else:
+            log_test("GET by tag → 200 + posts", False, f"Got {response.status_code}: {result}")
+            return False
+    except Exception as e:
+        log_test("GET by tag → 200 + posts", False, str(e))
+        return False
+
+
 def test_delete_cleanup():
     """Test: DELETE should remove the test post"""
     if not created_post_id:
@@ -174,6 +197,7 @@ def main():
     print("[GET /api/posts]")
     test_get_valid_id()
     test_get_invalid_id()
+    test_get_by_tag()
     print()
     
     print("[DELETE /api/delete]")

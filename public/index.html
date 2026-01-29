@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Feed | Workshops</title>
     <meta name="description" content="Live workshop feed. Submit posts via code and see them appear in real-time.">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -36,17 +40,18 @@
             <!-- Title Section -->
             <section class="title-section">
                 <h2>Live Feed</h2>
-                <p>Submit posts using code and watch them appear in real-time. This is your chance to prove you can write code that talks to a server!</p>
+                <p>Submit posts using code and watch them appear in real-time. This is your chance to prove you can
+                    write code that talks to a server!</p>
             </section>
 
             <!-- Code Examples Section -->
             <section class="code-section">
                 <h3>How to Submit a Post</h3>
                 <p class="password-note">
-                    <i class="fas fa-lock"></i> 
+                    <i class="fas fa-lock"></i>
                     The WorkshopKey will be provided by your instructor during the workshop.
                 </p>
-                
+
                 <div class="code-tabs">
                     <button class="tab-btn active" data-tab="python">
                         <i class="fab fa-python"></i> Python
@@ -72,7 +77,7 @@ url = <span class="string">"https://live.segunakinyemi.com/api/post"</span>
 data = {
     <span class="string">"Name"</span>: <span class="string">"Your Name Here"</span>,
     <span class="string">"Message"</span>: <span class="string">"Hello from Python!"</span>,
-    <span class="string">"Workshop"</span>: <span class="string">"UNC Charlotte 2026"</span>,
+    <span class="string">"Workshop"</span>: <span class="string">"AI Interview Workshop"</span>,
     <span class="string">"Tags"</span>: <span class="string">"python, workshop"</span>,  <span class="comment"># optional</span>
     <span class="string">"WorkshopKey"</span>: <span class="string">"ASK_YOUR_INSTRUCTOR"</span>
 }
@@ -97,7 +102,7 @@ response = requests.post(url, json=data)
 <span class="keyword">const</span> data = {
     Name: <span class="string">"Your Name Here"</span>,
     Message: <span class="string">"Hello from JavaScript!"</span>,
-    Workshop: <span class="string">"UNC Charlotte 2026"</span>,
+    Workshop: <span class="string">"AI Interview Workshop"</span>,
     Tags: <span class="string">"javascript, workshop"</span>,  <span class="comment">// optional</span>
     WorkshopKey: <span class="string">"ASK_YOUR_INSTRUCTOR"</span>
 };
@@ -127,7 +132,7 @@ response = requests.post(url, json=data)
 <span class="variable">$body</span> = @{
     Name        = <span class="string">"Your Name Here"</span>
     Message     = <span class="string">"Hello from PowerShell!"</span>
-    Workshop    = <span class="string">"UNC Charlotte 2026"</span>
+    Workshop    = <span class="string">"AI Interview Workshop"</span>
     Tags        = <span class="string">"powershell, workshop"</span>  <span class="comment"># optional</span>
     WorkshopKey = <span class="string">"ASK_YOUR_INSTRUCTOR"</span>
 } | <span class="function">ConvertTo-Json</span>
@@ -143,7 +148,7 @@ response = requests.post(url, json=data)
                     </div>
 
                 </div>
-                
+
                 <p class="success-hint">
                     <i class="fas fa-check-circle"></i>
                     If it worked, you'll see your post appear in the feed below within a few seconds.
@@ -159,6 +164,7 @@ response = requests.post(url, json=data)
                             <span class="toggle-text">Live Mode</span>
                         </button>
                         <span id="statusText" class="status-text">Auto-refresh off</span>
+                        <span id="countdownText" class="countdown-text"></span>
                     </div>
                     <button id="refreshBtn" class="refresh-btn">
                         <i class="fas fa-sync-alt"></i> Refresh Now
@@ -168,13 +174,24 @@ response = requests.post(url, json=data)
 
             <!-- Live Feed Display -->
             <section class="feed-section">
+                <h3>Script Submissions</h3>
                 <div class="feed-container">
-                    <iframe 
-                        id="feedFrame"
-                        class="airtable-embed" 
-                        src="https://airtable.com/embed/appC0ZE44OOVEtRsQ/shrOSM94CUYIGensD?viewControls=on" 
-                        loading="lazy"
-                    ></iframe>
+                    <iframe id="feedFrame" class="airtable-embed"
+                        src="https://airtable.com/embed/appC0ZE44OOVEtRsQ/shrOSM94CUYIGensD?viewControls=on"
+                        loading="lazy"></iframe>
+                </div>
+            </section>
+
+            <!-- Divider -->
+            <hr class="section-divider">
+
+            <!-- UI Submissions Display -->
+            <section class="feed-section">
+                <h3>UI Submissions</h3>
+                <div class="feed-container">
+                    <iframe id="uiFeedFrame" class="airtable-embed"
+                        src="https://airtable.com/embed/appC0ZE44OOVEtRsQ/shrGyf1NUiKlhFbY0?viewControls=on"
+                        loading="lazy"></iframe>
                 </div>
             </section>
         </div>
@@ -183,11 +200,13 @@ response = requests.post(url, json=data)
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; <span id="current-year"></span> <a href="https://segunakinyemi.com/" target="_blank" rel="noopener">Segun Akinyemi</a>. All rights reserved.</p>
+            <p>&copy; <span id="current-year"></span> <a href="https://segunakinyemi.com/" target="_blank"
+                    rel="noopener">Segun Akinyemi</a>. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
+
 </html>

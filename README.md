@@ -45,7 +45,7 @@ Creates a new post.
 |-------|------|----------|-------------|
 | `Name` | string | Yes | Participant's name |
 | `Message` | string | Yes | The message content |
-| `Workshop` | string | Yes | Workshop name (e.g., "UNC Charlotte 2026") |
+| `Workshop` | string | Yes | Workshop name (e.g., "AI Interview Workshop") |
 | `Tags` | string | No | Comma-separated tags |
 | `WorkshopKey` | string | Yes | Secret password |
 
@@ -66,10 +66,18 @@ GET /api/posts?id=recXXX&WorkshopKey=...
 **Mode 2: List recent posts by workshop**
 
 ```txt
-GET /api/posts?workshop=UNC%20Charlotte%202026&WorkshopKey=...
+GET /api/posts?workshop=AI%20Interview%20Workshop&WorkshopKey=...
 ```
 
 **Response:** `{ success: true, count: 12, workshop: "...", posts: [...] }`
+
+**Mode 3: List recent posts by tag**
+
+```txt
+GET /api/posts?tag=python&WorkshopKey=...
+```
+
+**Response:** `{ success: true, count: 5, tag: "python", posts: [...] }`
 
 ## Local Development
 

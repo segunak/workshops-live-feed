@@ -287,6 +287,13 @@ body {
     font-size: 0.9rem;
 }
 
+.countdown-text {
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 40px;
+}
+
 .refresh-btn {
     background: var(--primary);
     color: white;
@@ -303,6 +310,13 @@ body {
 
 .refresh-btn:hover {
     background: var(--primary-dark);
+}
+
+/* Section Divider */
+.section-divider {
+    border: none;
+    border-top: 2px solid var(--gray-light);
+    margin: 2.5rem 0;
 }
 
 /* Feed Section */

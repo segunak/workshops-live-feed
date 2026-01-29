@@ -134,6 +134,25 @@ function Test-GetInvalidId {
     }
 }
 
+function Test-GetByTag {
+    try {
+        $url = "$PostsUrl`?tag=powershell&WorkshopKey=$WorkshopKey"
+        $response = Invoke-RestMethod -Uri $url -Method Get -ErrorAction Stop
+        
+        if ($response.success -and $null -ne $response.posts -and $null -ne $response.count -and $null -ne $response.tag) {
+            Log-Test "GET by tag → 200 + posts" $true
+            return $true
+        } else {
+            Log-Test "GET by tag → 200 + posts" $false "Missing fields: $($response | ConvertTo-Json -Compress)"
+            return $false
+        }
+    }
+    catch {
+        Log-Test "GET by tag → 200 + posts" $false $_.Exception.Message
+        return $false
+    }
+}
+
 function Test-DeleteCleanup {
     if (-not $script:CreatedPostId) {
         Log-Test "DELETE cleanup" $false "No post id to delete"
@@ -173,6 +192,7 @@ Write-Host ""
 Write-Host "[GET /api/posts]"
 Test-GetValidId | Out-Null
 Test-GetInvalidId | Out-Null
+Test-GetByTag | Out-Null
 Write-Host ""
 
 Write-Host "[DELETE /api/delete]"

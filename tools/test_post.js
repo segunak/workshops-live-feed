@@ -144,6 +144,31 @@ async function testGetInvalidId() {
     }
 }
 
+async function testGetByTag() {
+    try {
+        const url = `${POSTS_URL}?tag=javascript&WorkshopKey=${WORKSHOP_KEY}`;
+        const response = await fetch(url);
+        const result = await response.json();
+
+        if (response.status === 200 && result.success) {
+            // Just verify we get a valid response structure
+            if ("posts" in result && "count" in result && "tag" in result) {
+                logTest("GET by tag → 200 + posts", true);
+                return true;
+            } else {
+                logTest("GET by tag → 200 + posts", false, `Missing fields: ${JSON.stringify(result)}`);
+                return false;
+            }
+        } else {
+            logTest("GET by tag → 200 + posts", false, `Got ${response.status}: ${JSON.stringify(result)}`);
+            return false;
+        }
+    } catch (e) {
+        logTest("GET by tag → 200 + posts", false, e.message);
+        return false;
+    }
+}
+
 async function testDeleteCleanup() {
     if (!createdPostId) {
         logTest("DELETE cleanup", false, "No post id to delete");
@@ -183,6 +208,7 @@ async function main() {
     console.log("[GET /api/posts]");
     await testGetValidId();
     await testGetInvalidId();
+    await testGetByTag();
     console.log();
 
     console.log("[DELETE /api/delete]");
