@@ -4,13 +4,28 @@ Integration tests for the Live Feed API. Tests POST, GET, and DELETE endpoints.
 
 ## CI/CD
 
-Tests run automatically on every push to `main` via GitHub Actions. The workflow:
+Tests run automatically on push to `main` via GitHub Actions, but only when relevant files change.
+
+**GitHub Actions** (runs tests) triggers on changes to:
+
+- `api/**` (serverless functions)
+- `public/**` (website)
+- `tools/**` (test scripts)
+
+**Vercel** (deploys site) rebuilds on changes to:
+
+- `api/**` (serverless functions)
+- `public/**` (website)
+
+Changes to README, .github/, or other files skip both the workflow and the Vercel build.
+
+The workflow:
 
 1. Waits 30 seconds for Vercel to deploy
 2. Runs all 3 language tests in parallel
 3. Each test creates a post, verifies it exists, then deletes it
 
-See `.github/workflows/test-api.yml` for details.
+See `.github/workflows/test-api.yml` and `vercel.json` for configuration.
 
 ## Manual Usage
 
