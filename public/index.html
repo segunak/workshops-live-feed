@@ -22,6 +22,14 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Prevent iframe focus from scrolling page -->
+    <style>
+        /* During initial load, prevent smooth scrolling which can be triggered by iframe focus */
+        html {
+            scroll-behavior: auto !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -178,7 +186,7 @@ response = requests.post(url, json=data)
                 <div class="feed-container">
                     <iframe id="feedFrame" class="airtable-embed"
                         src="https://airtable.com/embed/appC0ZE44OOVEtRsQ/shrOSM94CUYIGensD?viewControls=on"
-                        loading="lazy"></iframe>
+                        loading="lazy" tabindex="-1"></iframe>
                 </div>
             </section>
 
@@ -191,7 +199,7 @@ response = requests.post(url, json=data)
                 <div class="feed-container">
                     <iframe id="uiFeedFrame" class="airtable-embed"
                         src="https://airtable.com/embed/appC0ZE44OOVEtRsQ/shrGyf1NUiKlhFbY0?viewControls=on"
-                        loading="lazy"></iframe>
+                        loading="lazy" tabindex="-1"></iframe>
                 </div>
             </section>
         </div>
