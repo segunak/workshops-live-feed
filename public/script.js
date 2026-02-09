@@ -5,13 +5,18 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     // ========================================
+    // Feature Flags
+    // ========================================
+    const ENABLE_SCROLL_LOCK = false;
+
+    // ========================================
     // Scroll Lock: Prevent Airtable iframe cookie popup from stealing focus
     // The OneTrust cookie banner inside Airtable embeds has tabindex="0" 
     // and auto-focuses, which scrolls the page to the iframe location.
     // We lock scroll until iframes load, then release shortly after.
     // ========================================
     
-    let scrollLocked = true;
+    let scrollLocked = ENABLE_SCROLL_LOCK;
     const feedFrame = document.getElementById('feedFrame');
     const uiFeedFrame = document.getElementById('uiFeedFrame');
     let framesLoaded = 0;
@@ -30,29 +35,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Listen for iframe load events
-    if (feedFrame) feedFrame.addEventListener('load', onFrameLoad);
-    if (uiFeedFrame) uiFeedFrame.addEventListener('load', onFrameLoad);
-    
-    // Lock scroll position using requestAnimationFrame
-    function lockScroll() {
-        if (scrollLocked) {
-            window.scrollTo(0, 0);
-            requestAnimationFrame(lockScroll);
-        }
-    }
-    requestAnimationFrame(lockScroll);
-    
-    // Catch scroll events and reset
     function preventScroll() {
         if (scrollLocked) {
             window.scrollTo(0, 0);
         }
     }
-    window.addEventListener('scroll', preventScroll, { passive: false });
-    
-    // Fallback: release after 3 seconds max (in case load events don't fire)
-    setTimeout(releaseScrollLock, 3000);
+
+    if (ENABLE_SCROLL_LOCK) {
+        // Listen for iframe load events
+        if (feedFrame) feedFrame.addEventListener('load', onFrameLoad);
+        if (uiFeedFrame) uiFeedFrame.addEventListener('load', onFrameLoad);
+        
+        // Lock scroll position using requestAnimationFrame
+        function lockScroll() {
+            if (scrollLocked) {
+                window.scrollTo(0, 0);
+                requestAnimationFrame(lockScroll);
+            }
+        }
+        requestAnimationFrame(lockScroll);
+        
+        // Catch scroll events and reset
+        window.addEventListener('scroll', preventScroll, { passive: false });
+        
+        // Fallback: release after 3 seconds max (in case load events don't fire)
+        setTimeout(releaseScrollLock, 3000);
+    }
 
     // Set current year in footer
     const yearSpan = document.getElementById('current-year');
