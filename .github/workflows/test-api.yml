@@ -11,7 +11,6 @@ on:
 
 env:
   LIVE_FEED_URL: https://live.segunakinyemi.com
-  WORKSHOP_KEY: ${{ secrets.WORKSHOP_KEY }}
   ADMIN_KEY: ${{ secrets.ADMIN_KEY }}
 
 jobs:
