@@ -3,12 +3,11 @@
 # Cleans up after itself using the DELETE endpoint.
 
 $BaseUrl = if ($env:LIVE_FEED_URL) { $env:LIVE_FEED_URL } else { "https://live.segunakinyemi.com" }
-$WorkshopKey = if ($env:WORKSHOP_KEY) { $env:WORKSHOP_KEY } else { "cinnamon-rolls-are-the-best-pastry-hands-down" }
 $AdminKey = if ($env:ADMIN_KEY) { $env:ADMIN_KEY } else { "" }
 
-# ADMIN_KEY is required for cleanup
+# ADMIN_KEY is required for all test operations
 if (-not $AdminKey) {
-    Write-Host "ERROR: ADMIN_KEY environment variable is required for cleanup" -ForegroundColor Red
+    Write-Host "ERROR: ADMIN_KEY environment variable is required" -ForegroundColor Red
     exit 1
 }
 
@@ -47,7 +46,7 @@ function Test-PostValid {
         Message     = "CI test at $timestamp"
         Workshop    = "CI Test"
         Tags        = "ci, automated, powershell"
-        WorkshopKey = $WorkshopKey
+        WorkshopKey = $AdminKey
     } | ConvertTo-Json
 
     try {
@@ -99,7 +98,7 @@ function Test-GetValidId {
     }
 
     try {
-        $url = "$PostsUrl`?id=$($script:CreatedPostId)&WorkshopKey=$WorkshopKey"
+        $url = "$PostsUrl`?id=$($script:CreatedPostId)&WorkshopKey=$AdminKey"
         $response = Invoke-RestMethod -Uri $url -Method Get -ErrorAction Stop
         
         if ($response.success -and $response.post -and $response.post.id -eq $script:CreatedPostId) {
@@ -118,7 +117,7 @@ function Test-GetValidId {
 
 function Test-GetInvalidId {
     try {
-        $url = "$PostsUrl`?id=recINVALID123&WorkshopKey=$WorkshopKey"
+        $url = "$PostsUrl`?id=recINVALID123&WorkshopKey=$AdminKey"
         $response = Invoke-WebRequest -Uri $url -Method Get -ErrorAction Stop
         Log-Test "GET invalid id → 404" $false "Got $($response.StatusCode)"
         return $false
@@ -136,7 +135,7 @@ function Test-GetInvalidId {
 
 function Test-GetByTag {
     try {
-        $url = "$PostsUrl`?tag=powershell&WorkshopKey=$WorkshopKey"
+        $url = "$PostsUrl`?tag=powershell&WorkshopKey=$AdminKey"
         $response = Invoke-RestMethod -Uri $url -Method Get -ErrorAction Stop
         
         if ($response.success -and $null -ne $response.posts -and $null -ne $response.count -and $null -ne $response.tag) {

@@ -86,10 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Live mode toggle
-    const liveToggle = document.getElementById('liveToggle');
-    const statusText = document.getElementById('statusText');
-    const countdownText = document.getElementById('countdownText');
-    const refreshBtn = document.getElementById('refreshBtn');
+    const liveToggles = document.querySelectorAll('.live-toggle-btn');
+    const statusTexts = document.querySelectorAll('.status-text');
+    const countdownTexts = document.querySelectorAll('.countdown-text');
+    const refreshBtns = document.querySelectorAll('.refresh-now-btn');
     // feedFrame and uiFeedFrame already declared above for scroll lock
     
     let isLive = false;
@@ -115,25 +115,25 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCountdown() {
         if (secondsRemaining > 0) {
             secondsRemaining--;
-            countdownText.textContent = `(${secondsRemaining}s)`;
+            countdownTexts.forEach(el => el.textContent = `(${secondsRemaining}s)`);
         }
     }
 
     function startLiveMode() {
         isLive = true;
-        liveToggle.classList.add('active');
-        statusText.textContent = 'Next refresh in';
+        liveToggles.forEach(btn => btn.classList.add('active'));
+        statusTexts.forEach(el => el.textContent = 'Next refresh in');
         secondsRemaining = REFRESH_INTERVAL_S;
-        countdownText.textContent = `(${secondsRemaining}s)`;
+        countdownTexts.forEach(el => el.textContent = `(${secondsRemaining}s)`);
         refreshInterval = setInterval(refreshFeed, REFRESH_INTERVAL_MS);
         countdownInterval = setInterval(updateCountdown, 1000);
     }
 
     function stopLiveMode() {
         isLive = false;
-        liveToggle.classList.remove('active');
-        statusText.textContent = 'Auto-refresh off';
-        countdownText.textContent = '';
+        liveToggles.forEach(btn => btn.classList.remove('active'));
+        statusTexts.forEach(el => el.textContent = 'Auto-refresh off');
+        countdownTexts.forEach(el => el.textContent = '');
         if (refreshInterval) {
             clearInterval(refreshInterval);
             refreshInterval = null;
@@ -144,19 +144,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    if (liveToggle) {
-        liveToggle.addEventListener('click', () => {
+    liveToggles.forEach(btn => {
+        btn.addEventListener('click', () => {
             if (isLive) {
                 stopLiveMode();
             } else {
                 startLiveMode();
             }
         });
-    }
+    });
 
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', refreshFeed);
-    }
+    refreshBtns.forEach(btn => {
+        btn.addEventListener('click', refreshFeed);
+    });
 
     // Pause refresh when tab is hidden
     document.addEventListener('visibilitychange', () => {
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
             countdownInterval = null;
         } else if (!document.hidden && isLive) {
             secondsRemaining = REFRESH_INTERVAL_S;
-            countdownText.textContent = `(${secondsRemaining}s)`;
+            countdownTexts.forEach(el => el.textContent = `(${secondsRemaining}s)`);
             refreshInterval = setInterval(refreshFeed, REFRESH_INTERVAL_MS);
             countdownInterval = setInterval(updateCountdown, 1000);
         }

@@ -167,14 +167,14 @@ response = requests.post(url, json=data)
             <section class="controls-section">
                 <div class="controls-row">
                     <div class="live-toggle">
-                        <button id="liveToggle" class="toggle-btn">
+                        <button class="toggle-btn live-toggle-btn">
                             <span class="toggle-indicator"></span>
                             <span class="toggle-text">Live Mode</span>
                         </button>
-                        <span id="statusText" class="status-text">Auto-refresh off</span>
-                        <span id="countdownText" class="countdown-text"></span>
+                        <span class="status-text">Auto-refresh off</span>
+                        <span class="countdown-text"></span>
                     </div>
-                    <button id="refreshBtn" class="refresh-btn">
+                    <button class="refresh-btn refresh-now-btn">
                         <i class="fas fa-sync-alt"></i> Refresh Now
                     </button>
                 </div>
@@ -192,6 +192,23 @@ response = requests.post(url, json=data)
 
             <!-- Divider -->
             <hr class="section-divider">
+
+            <!-- Feed Controls (duplicated above UI Submissions) -->
+            <section class="controls-section">
+                <div class="controls-row">
+                    <div class="live-toggle">
+                        <button class="toggle-btn live-toggle-btn">
+                            <span class="toggle-indicator"></span>
+                            <span class="toggle-text">Live Mode</span>
+                        </button>
+                        <span class="status-text">Auto-refresh off</span>
+                        <span class="countdown-text"></span>
+                    </div>
+                    <button class="refresh-btn refresh-now-btn">
+                        <i class="fas fa-sync-alt"></i> Refresh Now
+                    </button>
+                </div>
+            </section>
 
             <!-- UI Submissions Display -->
             <section class="feed-section">

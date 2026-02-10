@@ -11,12 +11,11 @@ from datetime import datetime
 
 # Configuration from environment
 BASE_URL = os.getenv("LIVE_FEED_URL", "https://live.segunakinyemi.com")
-WORKSHOP_KEY = os.getenv("WORKSHOP_KEY", "cinnamon-rolls-are-the-best-pastry-hands-down")
 ADMIN_KEY = os.getenv("ADMIN_KEY", "")
 
-# ADMIN_KEY is required for cleanup
+# ADMIN_KEY is required for all test operations
 if not ADMIN_KEY:
-    print("ERROR: ADMIN_KEY environment variable is required for cleanup")
+    print("ERROR: ADMIN_KEY environment variable is required")
     sys.exit(1)
 
 POST_URL = f"{BASE_URL}/api/post"
@@ -51,7 +50,7 @@ def test_post_valid():
         "Message": f"CI test at {timestamp}",
         "Workshop": "CI Test",
         "Tags": "ci, automated, python",
-        "WorkshopKey": WORKSHOP_KEY
+        "WorkshopKey": ADMIN_KEY
     }
     
     try:
@@ -100,7 +99,7 @@ def test_get_valid_id():
         return False
     
     try:
-        url = f"{POSTS_URL}?id={created_post_id}&WorkshopKey={WORKSHOP_KEY}"
+        url = f"{POSTS_URL}?id={created_post_id}&WorkshopKey={ADMIN_KEY}"
         response = requests.get(url, timeout=30)
         result = response.json()
         
@@ -123,7 +122,7 @@ def test_get_valid_id():
 def test_get_invalid_id():
     """Test: GET with invalid id should return 404"""
     try:
-        url = f"{POSTS_URL}?id=recINVALID123&WorkshopKey={WORKSHOP_KEY}"
+        url = f"{POSTS_URL}?id=recINVALID123&WorkshopKey={ADMIN_KEY}"
         response = requests.get(url, timeout=30)
         
         if response.status_code == 404:
@@ -140,7 +139,7 @@ def test_get_invalid_id():
 def test_get_by_tag():
     """Test: GET with tag should return posts containing that tag"""
     try:
-        url = f"{POSTS_URL}?tag=python&WorkshopKey={WORKSHOP_KEY}"
+        url = f"{POSTS_URL}?tag=python&WorkshopKey={ADMIN_KEY}"
         response = requests.get(url, timeout=30)
         result = response.json()
         

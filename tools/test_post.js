@@ -6,12 +6,11 @@
  */
 
 const BASE_URL = process.env.LIVE_FEED_URL || "https://live.segunakinyemi.com";
-const WORKSHOP_KEY = process.env.WORKSHOP_KEY || "cinnamon-rolls-are-the-best-pastry-hands-down";
 const ADMIN_KEY = process.env.ADMIN_KEY || "";
 
-// ADMIN_KEY is required for cleanup
+// ADMIN_KEY is required for all test operations
 if (!ADMIN_KEY) {
-    console.log("ERROR: ADMIN_KEY environment variable is required for cleanup");
+    console.log("ERROR: ADMIN_KEY environment variable is required");
     process.exit(1);
 }
 
@@ -44,7 +43,7 @@ async function testPostValid() {
         Message: `CI test at ${timestamp}`,
         Workshop: "CI Test",
         Tags: "ci, automated, javascript",
-        WorkshopKey: WORKSHOP_KEY
+        WorkshopKey: ADMIN_KEY
     };
 
     try {
@@ -104,7 +103,7 @@ async function testGetValidId() {
     }
 
     try {
-        const url = `${POSTS_URL}?id=${createdPostId}&WorkshopKey=${WORKSHOP_KEY}`;
+        const url = `${POSTS_URL}?id=${createdPostId}&WorkshopKey=${ADMIN_KEY}`;
         const response = await fetch(url);
         const result = await response.json();
 
@@ -128,7 +127,7 @@ async function testGetValidId() {
 
 async function testGetInvalidId() {
     try {
-        const url = `${POSTS_URL}?id=recINVALID123&WorkshopKey=${WORKSHOP_KEY}`;
+        const url = `${POSTS_URL}?id=recINVALID123&WorkshopKey=${ADMIN_KEY}`;
         const response = await fetch(url);
 
         if (response.status === 404) {
@@ -146,7 +145,7 @@ async function testGetInvalidId() {
 
 async function testGetByTag() {
     try {
-        const url = `${POSTS_URL}?tag=javascript&WorkshopKey=${WORKSHOP_KEY}`;
+        const url = `${POSTS_URL}?tag=javascript&WorkshopKey=${ADMIN_KEY}`;
         const response = await fetch(url);
         const result = await response.json();
 

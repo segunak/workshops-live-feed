@@ -24,8 +24,12 @@ export default async function handler(req, res) {
   // Parse body
   const { Name, Message, Workshop, Tags, WorkshopKey } = req.body;
 
-  // Validate WorkshopKey
-  if (!WorkshopKey || WorkshopKey !== process.env.WORKSHOP_KEY) {
+  // Validate WorkshopKey (also accept AdminKey for admin/CI access)
+  const adminKey = process.env.ADMIN_KEY;
+  const isValidWorkshopKey = WorkshopKey && WorkshopKey === process.env.WORKSHOP_KEY;
+  const isValidAdminKey = WorkshopKey && adminKey && WorkshopKey === adminKey;
+
+  if (!isValidWorkshopKey && !isValidAdminKey) {
     return res.status(401).json({ success: false, error: 'Invalid or missing WorkshopKey' });
   }
 
