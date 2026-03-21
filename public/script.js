@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let scrollLocked = ENABLE_SCROLL_LOCK;
     const feedFrame = document.getElementById('feedFrame');
     const uiFeedFrame = document.getElementById('uiFeedFrame');
+    const agentFeedFrame = document.getElementById('agentFeedFrame');
     let framesLoaded = 0;
     
     function releaseScrollLock() {
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function onFrameLoad() {
         framesLoaded++;
         // Both iframes loaded - release lock after brief delay for cookie popup to settle
-        if (framesLoaded >= 2) {
+        if (framesLoaded >= 3) {
             setTimeout(releaseScrollLock, 500);
         }
     }
@@ -93,10 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // feedFrame and uiFeedFrame already declared above for scroll lock
     
     let isLive = false;
-    let refreshInterval = null;
     let countdownInterval = null;
     let secondsRemaining = 0;
-    const REFRESH_INTERVAL_MS = 30000; // 30 seconds
     const REFRESH_INTERVAL_S = 30;
 
     function refreshFrame(frame) {
@@ -107,8 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function refreshFeed() {
-        refreshFrame(feedFrame);
-        refreshFrame(uiFeedFrame);
+        document.querySelectorAll('.airtable-embed').forEach(frame => refreshFrame(frame));
         secondsRemaining = REFRESH_INTERVAL_S;
     }
 
@@ -116,6 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (secondsRemaining > 0) {
             secondsRemaining--;
             countdownTexts.forEach(el => el.textContent = `(${secondsRemaining}s)`);
+            if (secondsRemaining === 0) {
+                refreshFeed();
+                countdownTexts.forEach(el => el.textContent = `(${REFRESH_INTERVAL_S}s)`);
+            }
         }
     }
 
@@ -125,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
         statusTexts.forEach(el => el.textContent = 'Next refresh in');
         secondsRemaining = REFRESH_INTERVAL_S;
         countdownTexts.forEach(el => el.textContent = `(${secondsRemaining}s)`);
-        refreshInterval = setInterval(refreshFeed, REFRESH_INTERVAL_MS);
         countdownInterval = setInterval(updateCountdown, 1000);
     }
 
@@ -134,10 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
         liveToggles.forEach(btn => btn.classList.remove('active'));
         statusTexts.forEach(el => el.textContent = 'Auto-refresh off');
         countdownTexts.forEach(el => el.textContent = '');
-        if (refreshInterval) {
-            clearInterval(refreshInterval);
-            refreshInterval = null;
-        }
         if (countdownInterval) {
             clearInterval(countdownInterval);
             countdownInterval = null;
@@ -161,14 +158,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Pause refresh when tab is hidden
     document.addEventListener('visibilitychange', () => {
         if (document.hidden && isLive) {
-            clearInterval(refreshInterval);
             clearInterval(countdownInterval);
-            refreshInterval = null;
             countdownInterval = null;
         } else if (!document.hidden && isLive) {
-            secondsRemaining = REFRESH_INTERVAL_S;
-            countdownTexts.forEach(el => el.textContent = `(${secondsRemaining}s)`);
-            refreshInterval = setInterval(refreshFeed, REFRESH_INTERVAL_MS);
             countdownInterval = setInterval(updateCountdown, 1000);
         }
     });

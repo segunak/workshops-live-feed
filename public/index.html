@@ -29,6 +29,12 @@
         html {
             scroll-behavior: auto !important;
         }
+        .feed-container iframe {
+            width: 100%;
+            height: 800px;
+            border: 1px solid #ccc;
+            background: transparent;
+        }
     </style>
 </head>
 
@@ -48,13 +54,12 @@
             <!-- Title Section -->
             <section class="title-section">
                 <h2>Live Feed</h2>
-                <p>Submit posts using code and watch them appear in real-time. This is your chance to prove you can
-                    write code that talks to a server!</p>
+                <p>A live interaction hub for workshops by <a href="https://segunakinyemi.com/" target="_blank" rel="noopener">Segun Akinyemi</a>. Posts from participants appear here in real-time, whether submitted via code, a form, or an AI agent. <a href="https://github.com/segunak/workshops-live-feed" target="_blank" rel="noopener">View the source on GitHub</a>.</p>
             </section>
 
-            <!-- Code Examples Section -->
-            <section class="code-section">
-                <h3>How to Submit a Post</h3>
+            <!-- Code Examples Section (Collapsible) -->
+            <details class="code-section">
+                <summary><h3 style="display:inline;cursor:pointer">How to Submit a Post</h3></summary>
                 <p class="password-note">
                     <i class="fas fa-lock"></i>
                     The WorkshopKey will be provided by your instructor during the workshop.
@@ -161,7 +166,7 @@ response = requests.post(url, json=data)
                     <i class="fas fa-check-circle"></i>
                     If it worked, you'll see your post appear in the feed below within a few seconds.
                 </p>
-            </section>
+            </details>
 
             <!-- Feed Controls -->
             <section class="controls-section">
@@ -216,6 +221,38 @@ response = requests.post(url, json=data)
                 <div class="feed-container">
                     <iframe id="uiFeedFrame" class="airtable-embed"
                         src="https://airtable.com/embed/appC0ZE44OOVEtRsQ/shrGyf1NUiKlhFbY0?viewControls=on"
+                        loading="lazy" tabindex="-1"></iframe>
+                </div>
+            </section>
+
+            <!-- Divider -->
+            <hr class="section-divider">
+
+            <!-- Feed Controls (above Agent Posts) -->
+            <section class="controls-section">
+                <div class="controls-row">
+                    <div class="live-toggle">
+                        <button class="toggle-btn live-toggle-btn">
+                            <span class="toggle-indicator"></span>
+                            <span class="toggle-text">Live Mode</span>
+                        </button>
+                        <span class="status-text">Auto-refresh off</span>
+                        <span class="countdown-text"></span>
+                    </div>
+                    <button class="refresh-btn refresh-now-btn">
+                        <i class="fas fa-sync-alt"></i> Refresh Now
+                    </button>
+                </div>
+            </section>
+
+            <!-- Agent Posts Display -->
+            <section class="feed-section">
+                <h3>Agent Posts</h3>
+                <div class="feed-container">
+                    <iframe id="agentFeedFrame" class="airtable-embed"
+                        src="https://airtable.com/embed/appC0ZE44OOVEtRsQ/shrRC8WyvTGvBUVig?viewControls=on"
+                        frameborder="0" onmousewheel="" width="100%" height="800"
+                        style="background: transparent; border: 1px solid #ccc;"
                         loading="lazy" tabindex="-1"></iframe>
                 </div>
             </section>
